@@ -296,7 +296,9 @@ if __name__ == "__main__":
         #   根据预训练权重的Key和模型的Key进行加载
         #------------------------------------------------------#
         model_dict      = model.state_dict()
-        pretrained_dict = torch.load(model_path, map_location = device)
+        pretrained_dict = {k.replace('backbone.dark5.0.', 'No_weights5.0.'): v for k, v in torch.load(model_path).items()}
+        pretrained_dict = {k.replace('backbone.dark5.1.', 'No_weights5.1.'): v for k, v in pretrained_dict.items()}
+#         pretrained_dict = torch.load(model_path, map_location = device)
         load_key, no_load_key, temp_dict = [], [], {}
         for k, v in pretrained_dict.items():
             if k in model_dict.keys() and np.shape(model_dict[k]) == np.shape(v):
